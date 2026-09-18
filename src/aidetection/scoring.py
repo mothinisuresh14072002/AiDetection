@@ -11,7 +11,11 @@ class Score:
 def classify(ai_probability: float, *, margin: float = 0.15) -> Score:
     p = max(0.0, min(1.0, float(ai_probability)))
     if 0.5 - margin <= p <= 0.5 + margin:
-        return Score("UNCERTAIN", 1.0 - abs(p - 0.5) * 2, ("score is near decision boundary",))
+        return Score(
+            "UNCERTAIN",
+            1.0 - abs(p - 0.5) * 2,
+            ("score is near decision boundary",),
+        )
     if p >= 0.8:
         return Score(
             "AI_GENERATED",
