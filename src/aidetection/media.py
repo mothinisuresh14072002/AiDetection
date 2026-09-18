@@ -13,6 +13,8 @@ def sniff_media_type(data: bytes) -> MediaType:
         return MediaType.IMAGE
     if head.startswith(b"RIFF") and data[8:12] == b"WAVE":
         return MediaType.AUDIO
+    if head.startswith(b"RIFF") and data[8:12] == b"AVI ":
+        return MediaType.VIDEO
     if head.startswith((b"ID3", b"OggS", b"fLaC")):
         return MediaType.AUDIO
     if head.startswith(b"\x1a\x45\xdf\xa3"):
