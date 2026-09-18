@@ -1,7 +1,9 @@
 from src.aidetection.limits import MAX_UPLOAD_BYTES, validate_size
 
+
 def test_exact_limit():
     validate_size(b"x" * MAX_UPLOAD_BYTES)
+
 
 def test_over_limit():
     try:
