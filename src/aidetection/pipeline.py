@@ -7,12 +7,16 @@ from .provenance import inspect_metadata
 from .scoring import classify
 
 
+def models_enabled() -> bool:
+    return os.getenv("AIDETECTION_ENABLE_MODELS", "0") == "1"
+
+
 def analyze(data: bytes, media_type: MediaType, filename: str = "") -> AnalysisResult:
     if not data:
         raise ValueError("media payload is empty")
     provenance = inspect_metadata(data)
     signals = list(provenance.signals)
-    use_models = os.getenv("AIDETECTION_ENABLE_MODELS", "0") == "1"
+    use_models = models_enabled()
     if not use_models:
         score = classify(0.5)
         signals.extend(score.rationale)
