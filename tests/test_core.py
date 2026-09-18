@@ -21,3 +21,9 @@ def test_analyze_bytes():
     result = analyze_bytes(b"data", MediaType.IMAGE)
     assert result.media_type is MediaType.IMAGE
     assert result.ai_probability == 0.5
+
+
+def test_gif_signature_is_image():
+    from aidetection.media import sniff_media_type
+
+    assert sniff_media_type(b"GIF89a" + b"data") is MediaType.IMAGE
