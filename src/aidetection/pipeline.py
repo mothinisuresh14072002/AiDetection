@@ -17,7 +17,7 @@ def analyze(data: bytes, media_type: MediaType, filename: str = "") -> AnalysisR
         score = classify(0.5)
         signals.extend(score.rationale)
         signals.append("trained_detector_not_configured")
-        return AnalysisResult(media_type, score.label, score.confidence, tuple(signals))
+        return AnalysisResult(media_type, score.label, score.confidence, tuple(signals), score.ai_probability)
     try:
         if media_type is MediaType.IMAGE:
             probability = predict_image(data)
@@ -40,7 +40,7 @@ def analyze(data: bytes, media_type: MediaType, filename: str = "") -> AnalysisR
         score = classify(probability)
         signals.extend(score.rationale)
         signals.append("optional_huggingface_model")
-        return AnalysisResult(media_type, score.label, score.confidence, tuple(signals))
+        return AnalysisResult(media_type, score.label, score.confidence, tuple(signals), score.ai_probability)
     except ImportError as exc:
         raise RuntimeError(
             "model inference dependencies are missing; install the models extra"
