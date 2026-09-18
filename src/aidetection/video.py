@@ -1,10 +1,18 @@
 """Video frame sampling bridge for image detectors."""
+
+import tempfile
 from statistics import mean
 
-def sample_video_frames(data: bytes, max_frames: int = 12):
+
+def sample_video_frames(data: bytes, max_frames: int = 12, filename: str = ""):
     import cv2
-    import tempfile
-    with tempfile.NamedTemporaryFile(suffix=".mp4", delete=True) as handle:
+
+    suffix = ".mp4"
+    if filename:
+        from pathlib import Path
+
+        suffix = Path(filename).suffix or suffix
+    with tempfile.NamedTemporaryFile(suffix=suffix, delete=True) as handle:
         handle.write(data)
         handle.flush()
         capture = cv2.VideoCapture(handle.name)
@@ -21,6 +29,7 @@ def sample_video_frames(data: bytes, max_frames: int = 12):
             index += 1
         capture.release()
         return frames
+
 
 def aggregate_probabilities(probabilities: list[float]) -> float:
     return mean(probabilities) if probabilities else 0.5
