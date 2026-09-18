@@ -17,7 +17,7 @@ Open http://127.0.0.1:8000 for the browser UI or /docs for Swagger.
 
 ## Detection models
 
-The repository keeps model weights out of Git. The current optional defaults are Apache-2.0 Hugging Face models: an image detector from Reju983 based on Community Forensics, and a Wav2Vec2 audio deepfake detector from garystafford. Review each model card, training data, and license before production use. citeturn0search0turn0search1
+The repository keeps model weights out of Git. The current optional defaults are Apache-2.0 Hugging Face models: an image detector from Reju983 based on Community Forensics, and a Wav2Vec2 audio deepfake detector from garystafford. Review each model card, training data, and license before production use.
 
 The project does not claim a universal accuracy number: detector performance depends on generators, compression, preprocessing, and the evaluation set.
 
