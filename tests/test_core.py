@@ -1,5 +1,3 @@
-import pytest
-
 from src.aidetection.core import MediaType, analyze_bytes, detect_media_type
 
 
