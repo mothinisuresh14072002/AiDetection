@@ -15,8 +15,8 @@ class AnalysisResult:
     signals: tuple[str, ...]
 
 def detect_media_type(filename: str, content_type: str | None = None) -> MediaType:
-    value = (content_type or "").lower()
-    name = filename.lower()
+    value=(content_type or "").lower()
+    name=filename.lower()
     if value.startswith("image/") or name.endswith((".jpg",".jpeg",".png",".webp",".gif")):
         return MediaType.IMAGE
     if value.startswith("audio/") or name.endswith((".wav",".mp3",".m4a",".flac",".ogg")):
@@ -26,6 +26,5 @@ def detect_media_type(filename: str, content_type: str | None = None) -> MediaTy
     return MediaType.UNKNOWN
 
 def analyze_bytes(data: bytes, media_type: MediaType) -> AnalysisResult:
-    if not data:
-        raise ValueError("media payload is empty")
-    return AnalysisResult(media_type, "undetermined", 0.0, ("baseline_detector_not_configured",))
+    from .pipeline import analyze
+    return analyze(data, media_type)
