@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+title: "AiDetection"
+message: "If you use AiDetection, please cite this repository."
+type: software
+authors:
+  - family-names: Suresh
+    given-names: Mothini
+repository-code: "https://github.com/mothinisuresh14072002/AiDetection"
+license: Apache-2.0
