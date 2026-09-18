@@ -1,5 +1,5 @@
-from src.aidetection.core import MediaType
-from src.aidetection.pipeline import analyze
+from aidetection.core import MediaType
+from aidetection.pipeline import analyze
 
 
 def test_baseline_is_conservative(monkeypatch):
