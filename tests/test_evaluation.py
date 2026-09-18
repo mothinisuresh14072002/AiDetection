@@ -34,3 +34,9 @@ def test_empty_manifest_rejected(tmp_path):
     path = write_manifest(tmp_path, [])
     with pytest.raises(ValueError, match="empty"):
         evaluate(path)
+
+
+def test_invalid_probability_rejected(tmp_path):
+    path = write_manifest(tmp_path, [{"label": "real", "ai_probability": "1.5"}])
+    with pytest.raises(ValueError, match="between 0 and 1"):
+        evaluate(path)
