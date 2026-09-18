@@ -1,20 +1,40 @@
 from fastapi.testclient import TestClient
+
 from api.main import app
-client=TestClient(app)
+
+client = TestClient(app)
+
 
 def test_health():
-    r=client.get("/health")
-    assert r.status_code==200 and r.json()["status"]=="ok"
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.json()["status"] == "ok"
+
+
+def test_home():
+    response = client.get("/")
+    assert response.status_code == 200
+    assert "AiDetection" in response.text
+
 
 def test_capabilities():
-    r=client.get("/v1/capabilities")
-    assert r.status_code==200 and "video" in r.json()["modalities"]
+    response = client.get("/v1/capabilities")
+    assert response.status_code == 200
+    assert "video" in response.json()["modalities"]
+
 
 def test_analyze_image():
-    r=client.post("/v1/analyze",files={"file":("x.jpg",b"data","image/jpeg")})
-    assert r.status_code==200
-    assert r.json()["label"]=="UNCERTAIN"
+    response = client.post(
+        "/v1/analyze", files={"file": ("x.jpg", b"data", "image/jpeg")}
+    )
+    assert response.status_code == 200
+    body = response.json()
+    assert body["label"] == "UNCERTAIN"
+    assert len(body["sha256"]) == 64
+
 
 def test_reject_unknown():
-    r=client.post("/v1/analyze",files={"file":("x.bin",b"data","application/octet-stream")})
-    assert r.status_code==415
+    response = client.post(
+        "/v1/analyze", files={"file": ("x.bin", b"data", "application/octet-stream")}
+    )
+    assert response.status_code == 415

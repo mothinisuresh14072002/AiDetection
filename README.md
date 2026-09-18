@@ -13,7 +13,7 @@ One API, optional local Hugging Face inference, provenance signals, conservative
     pip install -e ".[dev]"
     uvicorn api.main:app --reload
 
-Open http://127.0.0.1:8000 for the web UI or /docs for Swagger.
+Open http://127.0.0.1:8000 for the browser UI or /docs for Swagger.
 
 ## Enable local model inference
 
@@ -29,15 +29,15 @@ Video samples frames and applies the image detector as a bridge; this is not equ
 
     curl -X POST http://127.0.0.1:8000/v1/analyze -F "file=@sample.jpg"
 
-The response contains modality, label, confidence, and evidence signals.
+The response contains modality, label, confidence, evidence signals, SHA-256, and processing time.
+
+## Safety
+
+Uploaded media is treated as untrusted input. The default request limit is 25 MiB. Production deployments should add authentication, rate limiting, sandboxed media decoding, malware scanning, timeouts, encryption, and automatic deletion.
 
 ## Evaluation
 
 Benchmark on held-out real media and multiple synthetic-generator families. Track precision, recall, F1, ROC-AUC, PR-AUC, calibration, false positives, compression robustness, and generator-specific performance.
-
-## Roadmap
-
-Dedicated image ensembles, temporal video models, multilingual audio ensembles, C2PA verification, background jobs, benchmark runner, calibration, model cards, and production hardening.
 
 ## License
 
