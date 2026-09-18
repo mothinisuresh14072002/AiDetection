@@ -11,7 +11,7 @@ from pathlib import Path
 
 
 def evaluate(path: Path) -> dict[str, float]:
-    from sklearn.metrics import average_precision_score, f1_score, precision_score, recall_score, roc_auc_score
+    from sklearn.metrics import (\n        average_precision_score,\n        f1_score,\n        precision_score,\n        recall_score,\n        roc_auc_score,\n    )
 
     with path.open(newline="", encoding="utf-8") as handle:
         rows = list(csv.DictReader(handle))
