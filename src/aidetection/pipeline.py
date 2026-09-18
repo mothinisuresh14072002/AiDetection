@@ -33,6 +33,8 @@ def analyze(data: bytes, media_type: MediaType, filename: str = "") -> AnalysisR
                 ok, encoded = cv2.imencode(".jpg", frame)
                 if ok:
                     probabilities.append(predict_image(encoded.tobytes()))
+            if not probabilities:
+                raise ValueError("video could not be decoded into analyzable frames")
             probability = aggregate_probabilities(probabilities)
             signals.append(f"sampled_frames={len(probabilities)}")
         score = classify(probability)
