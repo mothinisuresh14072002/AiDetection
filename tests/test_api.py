@@ -25,7 +25,7 @@ def test_capabilities():
 
 def test_analyze_image():
     response = client.post(
-        "/v1/analyze", files={"file": ("x.jpg", b"data", "image/jpeg")}
+        "/v1/analyze", files={"file": ("x.jpg", b"\xff\xd8\xff\xe0data", "image/jpeg")}
     )
     assert response.status_code == 200
     body = response.json()
