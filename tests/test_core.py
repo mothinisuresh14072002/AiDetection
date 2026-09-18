@@ -20,3 +20,4 @@ def test_content_type_wins():
 def test_analyze_bytes():
     result = analyze_bytes(b"data", MediaType.IMAGE)
     assert result.media_type is MediaType.IMAGE
+    assert result.ai_probability == 0.5
