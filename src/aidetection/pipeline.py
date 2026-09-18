@@ -45,3 +45,5 @@ def analyze(data: bytes, media_type: MediaType, filename: str = "") -> AnalysisR
         raise RuntimeError(
             "model inference dependencies are missing; install the models extra"
         ) from exc
+    except (OSError, ValueError) as exc:
+        raise RuntimeError(f"media inference failed: {exc}") from exc
