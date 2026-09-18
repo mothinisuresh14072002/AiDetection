@@ -5,7 +5,7 @@ from pathlib import Path
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 
-from aidetection.limits import MAX_UPLOAD_BYTES, validate_size
+from aidetection.limits import MAX_UPLOAD_BYTES
 from aidetection.service import DetectionService
 
 app = FastAPI(
@@ -40,11 +40,15 @@ async def analyze(file: UploadFile = File(...)):  # noqa: B008
     started = time.perf_counter()
     data = await file.read(MAX_UPLOAD_BYTES + 1)
     try:
-        validate_size(data)
         result = service.analyze_upload(data, file.filename or "", file.content_type)
     except ValueError as exc:
         message = str(exc)
-        status = 415 if "media type" in message else 413 if "exceeds" in message else 400
+        if "exceeds" in message:
+            status = 413
+        elif "media type" in message or "signature" in message:
+            status = 415
+        else:
+            status = 400
         raise HTTPException(status, message) from exc
     except RuntimeError as exc:
         raise HTTPException(503, str(exc)) from exc
