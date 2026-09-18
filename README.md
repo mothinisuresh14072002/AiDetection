@@ -35,7 +35,9 @@ Video samples frames and applies the image detector as a bridge; this is not equ
 
     curl -X POST http://127.0.0.1:8000/v1/analyze -F "file=@sample.jpg"
 
-The response contains modality, label, confidence, evidence signals, SHA-256, and processing time.
+The response contains modality, classification label, classification confidence, raw AI probability, evidence signals, SHA-256, processing time, and a request ID. `UNCERTAIN` is intentionally used near the decision boundary.
+
+Interactive API documentation is available at `/docs`; the OpenAPI schema is available at `/openapi.json`.
 
 ## Safety
 
