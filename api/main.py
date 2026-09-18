@@ -8,6 +8,7 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
 from aidetection.limits import MAX_UPLOAD_BYTES
+from aidetection.pipeline import models_enabled
 from aidetection.service import DetectionService
 
 app = FastAPI(
@@ -50,7 +51,7 @@ def capabilities():
         "modalities": ["image", "audio", "video"],
         "detector_status": "optional-model-backed",
         "max_upload_bytes": MAX_UPLOAD_BYTES,
-        "model_inference": False,
+        "model_inference": models_enabled(),
     }
 
 
