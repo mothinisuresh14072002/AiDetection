@@ -1,4 +1,4 @@
-from src.aidetection.limits import MAX_UPLOAD_BYTES, validate_size
+from aidetection.limits import MAX_UPLOAD_BYTES, validate_size
 
 
 def test_exact_limit():
