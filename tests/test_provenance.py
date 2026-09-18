@@ -1,4 +1,4 @@
-from src.aidetection.provenance import inspect_metadata
+from aidetection.provenance import inspect_metadata
 
 
 def test_empty():
