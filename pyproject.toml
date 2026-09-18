@@ -13,6 +13,7 @@ dependencies = ["fastapi>=0.115,<1", "uvicorn[standard]>=0.30,<1", "python-multi
 
 [project.optional-dependencies]
 dev = ["pytest>=8,<9", "httpx>=0.27,<1", "ruff>=0.6,<1"]
+evaluation = ["scikit-learn>=1.5,<2"]
 models = ["transformers>=4.45,<6", "torch>=2.4,<3", "pillow>=10,<13", "opencv-python-headless>=4.10,<5"]
 
 [tool.setuptools.packages.find]
