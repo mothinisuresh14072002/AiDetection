@@ -1,4 +1,4 @@
-from src.aidetection.core import MediaType, analyze_bytes, detect_media_type
+from aidetection.core import MediaType, analyze_bytes, detect_media_type
 
 
 def test_detect_image():
