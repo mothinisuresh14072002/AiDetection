@@ -1,5 +1,6 @@
 from fastapi.testclient import TestClient
 
+from aidetection.limits import MAX_UPLOAD_BYTES
 from api.main import app
 
 client = TestClient(app)
@@ -40,3 +41,21 @@ def test_reject_unknown():
         "/v1/analyze", files={"file": ("x.bin", b"data", "application/octet-stream")}
     )
     assert response.status_code == 415
+
+
+def test_reject_signature_mismatch():
+    response = client.post(
+        "/v1/analyze",
+        files={"file": ("x.jpg", b"RIFF0000WAVEdata", "image/jpeg")},
+    )
+    assert response.status_code == 415
+    assert response.json()["detail"]["request_id"]
+
+
+def test_reject_oversized_upload():
+    payload = b"x" * (MAX_UPLOAD_BYTES + 1)
+    response = client.post(
+        "/v1/analyze", files={"file": ("x.jpg", payload, "image/jpeg")}
+    )
+    assert response.status_code == 413
+    assert response.json()["detail"]["request_id"]
