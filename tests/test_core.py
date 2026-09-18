@@ -27,3 +27,9 @@ def test_gif_signature_is_image():
     from aidetection.media import sniff_media_type
 
     assert sniff_media_type(b"GIF89a" + b"data") is MediaType.IMAGE
+
+
+def test_avi_signature_is_video():
+    from aidetection.media import sniff_media_type
+
+    assert sniff_media_type(b"RIFF0000AVI " + b"data") is MediaType.VIDEO
