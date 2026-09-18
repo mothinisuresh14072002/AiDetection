@@ -30,6 +30,8 @@ def test_analyze_image():
     assert response.status_code == 200
     body = response.json()
     assert body["label"] == "UNCERTAIN"
+    assert body["ai_probability"] == 0.5
+    assert len(body["request_id"]) == 32
     assert len(body["sha256"]) == 64
 
 
