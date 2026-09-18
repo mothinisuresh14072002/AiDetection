@@ -1,13 +1,11 @@
 from dataclasses import dataclass
 from enum import Enum
 
-
 class MediaType(str, Enum):
     IMAGE = "image"
     AUDIO = "audio"
     VIDEO = "video"
     UNKNOWN = "unknown"
-
 
 @dataclass(frozen=True)
 class AnalysisResult:
@@ -15,7 +13,6 @@ class AnalysisResult:
     label: str
     confidence: float
     signals: tuple[str, ...]
-
 
 def detect_media_type(filename: str, content_type: str | None = None) -> MediaType:
     value = (content_type or "").lower()
@@ -28,8 +25,6 @@ def detect_media_type(filename: str, content_type: str | None = None) -> MediaTy
         return MediaType.VIDEO
     return MediaType.UNKNOWN
 
-
-def analyze_bytes(data: bytes, media_type: MediaType) -> AnalysisResult:
+def analyze_bytes(data: bytes, media_type: MediaType, filename: str = "") -> AnalysisResult:
     from .pipeline import analyze
-
-    return analyze(data, media_type)
+    return analyze(data, media_type, filename)

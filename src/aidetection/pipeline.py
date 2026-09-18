@@ -1,12 +1,38 @@
+import os
 from .core import AnalysisResult, MediaType
+from .models import predict_audio, predict_image
 from .provenance import inspect_metadata
 from .scoring import classify
 
-
-def analyze(data: bytes, media_type: MediaType) -> AnalysisResult:
+def analyze(data: bytes, media_type: MediaType, filename: str = "") -> AnalysisResult:
     if not data:
         raise ValueError("media payload is empty")
     provenance = inspect_metadata(data)
-    score = classify(0.5)
-    signals = provenance.signals + score.rationale + ("trained_detector_not_configured",)
-    return AnalysisResult(media_type, score.label, score.confidence, signals)
+    signals = list(provenance.signals)
+    use_models = os.getenv("AIDETECTION_ENABLE_MODELS", "0") == "1"
+    if not use_models:
+        score = classify(0.5)
+        signals.extend(score.rationale)
+        signals.append("trained_detector_not_configured")
+        return AnalysisResult(media_type, score.label, score.confidence, tuple(signals))
+    try:
+        if media_type is MediaType.IMAGE:
+            probability = predict_image(data)
+        elif media_type is MediaType.AUDIO:
+            probability = predict_audio(data, os.path.splitext(filename)[1] or ".wav")
+        else:
+            from .video import aggregate_probabilities, sample_video_frames
+            import cv2
+            probabilities = []
+            for frame in sample_video_frames(data):
+                ok, encoded = cv2.imencode(".jpg", frame)
+                if ok:
+                    probabilities.append(predict_image(encoded.tobytes()))
+            probability = aggregate_probabilities(probabilities)
+            signals.append(f"sampled_frames={len(probabilities)}")
+        score = classify(probability)
+        signals.extend(score.rationale)
+        signals.append("optional_huggingface_model")
+        return AnalysisResult(media_type, score.label, score.confidence, tuple(signals))
+    except ImportError as exc:
+        raise RuntimeError("model inference dependencies are missing; install the models extra") from exc
