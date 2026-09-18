@@ -59,3 +59,11 @@ def test_reject_oversized_upload():
     )
     assert response.status_code == 413
     assert response.json()["detail"]["request_id"]
+
+
+def test_capabilities_report_model_setting(monkeypatch):
+    monkeypatch.setenv("AIDETECTION_ENABLE_MODELS", "1")
+    response = client.get("/v1/capabilities")
+    assert response.status_code == 200
+    assert response.json()["model_inference"] is True
+
