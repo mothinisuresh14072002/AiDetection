@@ -1,0 +1,8 @@
+services:
+  aidetection:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      AIDETECTION_ENABLE_MODELS: "0"
+    restart: unless-stopped
