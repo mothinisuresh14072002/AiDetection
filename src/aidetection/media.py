@@ -7,7 +7,7 @@ def sniff_media_type(data: bytes) -> MediaType:
     if len(data) < 4:
         return MediaType.UNKNOWN
     head = data[:16]
-    if head.startswith(b"\xff\xd8\xff") or head.startswith(b"\x89PNG\r\n\x1a\n"):
+    if head.startswith((b"\xff\xd8\xff", b"\x89PNG\r\n\x1a\n")):
         return MediaType.IMAGE
     if head.startswith(b"RIFF") and data[8:12] == b"WEBP":
         return MediaType.IMAGE
