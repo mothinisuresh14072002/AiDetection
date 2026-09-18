@@ -36,7 +36,7 @@ def capabilities():
 
 
 @app.post("/v1/analyze")
-async def analyze(file: UploadFile = File(...)):
+async def analyze(file: UploadFile = File(...)):  # noqa: B008
     started = time.perf_counter()
     data = await file.read(MAX_UPLOAD_BYTES + 1)
     try:
