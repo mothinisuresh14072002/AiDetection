@@ -1,6 +1,6 @@
 # AiDetection
 
-**Open-source multimodal AI-media detection toolkit for images, audio, and video.**
+[![CI](https://github.com/mothinisuresh14072002/AiDetection/actions/workflows/ci.yml/badge.svg)](https://github.com/mothinisuresh14072002/AiDetection/actions/workflows/ci.yml)\n\n**Open-source multimodal AI-media detection toolkit for images, audio, and video.**
 
 One API, optional local Hugging Face inference, provenance signals, conservative scoring, browser UI, Docker support, and evaluation-first design.
 
