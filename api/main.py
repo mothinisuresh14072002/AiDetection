@@ -5,8 +5,8 @@ from pathlib import Path
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 
-from src.aidetection.limits import MAX_UPLOAD_BYTES, validate_size
-from src.aidetection.service import DetectionService
+from aidetection.limits import MAX_UPLOAD_BYTES, validate_size
+from aidetection.service import DetectionService
 
 app = FastAPI(
     title="AiDetection API",
