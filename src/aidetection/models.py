@@ -18,7 +18,10 @@ FAKE_LABELS = frozenset(
 
 
 def _probability(items, fake_labels=FAKE_LABELS) -> float:
-    scores = [(str(item.get("label", "")).strip().lower(), float(item.get("score", 0.0))) for item in items]
+    scores = [
+        (str(item.get("label", "")).strip().lower(), float(item.get("score", 0.0)))
+        for item in items
+    ]
     total = sum(max(score, 0.0) for _, score in scores)
     if not total:
         return 0.5
