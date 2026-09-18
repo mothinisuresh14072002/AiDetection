@@ -1,26 +1,21 @@
 """Pluggable detector interfaces and conservative baseline signals."""
+
 from dataclasses import dataclass
+
 from .core import AnalysisResult, MediaType
 
+
 @dataclass(frozen=True)
-class Signal:
+class DetectorMetadata:
     name: str
-    value: float
-    description: str
+    version: str
+    modality: MediaType
+
 
 class Detector:
-    name = "base"
-    def analyze(self, data: bytes, media_type: MediaType) -> AnalysisResult:
-        raise NotImplementedError
+    """Small protocol-like base class for future detector implementations."""
 
-class BaselineDetector(Detector):
-    name = "baseline"
-    def analyze(self, data: bytes, media_type: MediaType) -> AnalysisResult:
-        if not data:
-            raise ValueError("media payload is empty")
-        return AnalysisResult(
-            media_type=media_type,
-            label="undetermined",
-            confidence=0.0,
-            signals=("no production model configured",),
-        )
+    metadata: DetectorMetadata
+
+    def analyze(self, data: bytes, filename: str = "") -> AnalysisResult:
+        raise NotImplementedError
