@@ -1,4 +1,4 @@
-from src.aidetection.scoring import classify
+from aidetection.scoring import classify
 
 
 def test_high_score():
