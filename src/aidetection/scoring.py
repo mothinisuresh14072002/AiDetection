@@ -17,19 +17,9 @@ def classify(ai_probability: float, *, margin: float = 0.15) -> Score:
     distance = abs(p - 0.5)
     if distance <= margin:
         confidence = min(1.0, distance / margin) if margin > 0 else 0.0
-        return Score(
-            "UNCERTAIN",
-            confidence,
-            ("model score is close to the decision boundary",),
-            p,
-        )
+        return Score("UNCERTAIN", confidence, ("model score is close to the decision boundary",), p)
     if p >= 0.8:
-        return Score(
-            "AI_GENERATED",
-            p,
-            ("strong model evidence leans synthetic; verify independently for high-stakes use",),
-            p,
-        )
+        return Score("AI_GENERATED", p, ("strong model evidence leans synthetic; verify independently for high-stakes use",), p)
     if p >= 0.6:
         return Score("LIKELY_AI_GENERATED", p, ("model evidence leans synthetic",), p)
     if p <= 0.2:
